@@ -1,0 +1,129 @@
+<nav class="navbar fixed-top shadow navbar-expand-lg navbar-dark bg-primary">
+	<div class="container">
+		<a class="navbar-brand">Employee</a>
+	</div>
+</nav>
+
+<div class="container" *ngIf="!submitted;else submittedContent">
+	<form [formGroup]="employeeForm" (submit)="displayResults()">
+		<div class="row">
+			<div class="col-md-6 col-12">
+				<table class="table-borderless table table-responsive">
+					<tr>
+						<td>
+							<label for="nameInput">Name</label>
+						</td>
+						<td>
+							<div class="form-group">
+								<input id="nameInput" formControlName="name" type="text" [ngClass]="{
+                'form-control': true,
+                'is-invalid': employeeForm.controls.name.hasError('required') && employeeForm.controls.name.touched
+              }">
+								<span class="d-block invalid-feedback" *ngIf="employeeForm.controls.name.hasError('required') && employeeForm.controls.name.touched">Employee name is required</span>
+							</div>
+						</td>
+					</tr>
+					<tr>
+						<td><label for="addressInput">Address</label>
+						</td>
+						<td>
+							<div class="form-group">
+								<textarea formControlName="address" id="addressInput" [ngClass]="{
+                  'form-control': true,
+                  'is-invalid': employeeForm.controls.address.hasError('required') && employeeForm.controls.address.touched
+                }" ></textarea>
+								<span class="d-block invalid-feedback" *ngIf="employeeForm.controls.address.hasError('required') && employeeForm.controls.address.touched">
+                  Employee address is required</span>
+							</div>
+						</td>
+					</tr>
+					<tr>
+						<td><label for="mobileInput">Mobile</label>
+						</td>
+						<td>
+							<div class="form-group">
+								<input type="text" formControlName="mobile" id="mobileInput" [ngClass]="{
+                  'form-control': true,
+                  'is-invalid': (employeeForm.controls.mobile.hasError('required') && employeeForm.controls.mobile.touched) || (employeeForm.controls.mobile.hasError('pattern') && employeeForm.controls.mobile.touched)
+                }">
+								<span class="d-block invalid-feedback" *ngIf="employeeForm.controls.mobile.hasError('required') && employeeForm.controls.mobile.touched">Employee mobile number is required</span>
+								<span class="d-block invalid-feedback" *ngIf="(employeeForm.controls.mobile.hasError('pattern') && employeeForm.controls.mobile.touched)"><i>Employee mobile number invalid</i></span>
+							</div>
+						</td>
+					</tr>
+					<tr>
+						<td>
+							<label for="salaryInput">Salary</label>
+						</td>
+						<td>
+							<input type="text" formControlName="salary" id="salaryInput" [ngClass]="{
+                'form-control':true,
+                'is-invalid':(employeeForm.controls.salary.hasError('require') && employeeForm.controls.salary.touched) || (employeeForm.controls.salary.hasError('pattern') && employeeForm.controls.salary.touched)
+              }">
+							<span class="d-block invalid-feedback" *ngIf="employeeForm.controls.salary.hasError('required') && employeeForm.controls.salary.touched">Employee salary is required</span>
+							<span class="d-block invalid-feedback" *ngIf="employeeForm.controls.salary.hasError('pattern') && employeeForm.controls.salary.touched">Employee salary is invalid</span>
+						</td>
+					</tr>
+					<tr>
+						<td>
+							<label for="bloodGroup">Blood Group</label>
+						</td>
+						<td>
+							<div class="form-group">
+								<select formControlName="bloodGroup" [ngClass]="{
+                'form-control': true,
+                'is-invalid':employeeForm.controls.bloodGroup.hasError('required') && employeeForm.controls.bloodGroup.touched
+              }">
+              <option selected [value]="null">-select-</option>
+              <option [value]="'O'">O</option>
+              <option [value]="'AB+'">AB+</option>
+              <option [value]="'AB-'">AB-</option>
+              <option [value]="'A+'">A+</option>
+              <option [value]="'A-'">A-</option>
+              <option [value]="'B+'">B+</option>
+              <option [value]="'B-'">B-</option>
+              <option [value]="'O+'">O+</option>
+              <option [value]="'O-'">O-</option>
+              </select>
+								<span class="d-block invalid-feedback" *ngIf="employeeForm.controls.bloodGroup.hasError('required') && employeeForm.controls.bloodGroup.touched">Employee blood group required</span>
+							</div>
+						</td>
+					</tr>
+				</table>
+				<div class="row d-flex justify-content-center align-items-center">
+					<button [disabled]="employeeForm.invalid" type="submit" class="btn btn-primary">SUBMIT</button>
+				</div>
+			</div>
+		</div>
+	</form>
+</div>
+
+<ng-template #submittedContent>
+  <div class="container">
+    <div class="d-flex flex-row-reverse">
+      <button (click)="clearForm()" class="btn btn-secondary">Clear</button>
+    </div>
+    <table class="table-borderless table table-responsive">
+      <tr>
+        <td>Name:</td>
+        <td><span>{{employeeDetails.name}}</span></td>
+      </tr>
+      <tr>
+        <td>Address:</td>
+        <td><p>{{employeeDetails.address}}</p></td>
+      </tr>
+      <tr>
+        <td>Mobile:</td>
+        <td><span>{{employeeDetails.mobile}}</span></td>
+      </tr>
+      <tr>
+        <td>Salary:</td>
+        <td><span>{{employeeDetails.salary|currency}}</span></td>
+      </tr>
+      <tr>
+        <td>Blood Group:</td>
+        <td><span>{{employeeDetails.bloodGroup}}</span></td>
+      </tr>
+    </table>
+  </div>
+</ng-template>
